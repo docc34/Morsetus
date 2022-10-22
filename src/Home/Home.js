@@ -6,7 +6,6 @@ const Home = ()=>{
     const [Text, setText] = useState("");
     
     useEffect(()=>{
-        setOutput(MorseConverter({ Morse:true,Text:Text }))
     },[Text]);
 
     const textToElement = Output.map((e,i)=>{
@@ -15,17 +14,31 @@ const Home = ()=>{
 
     return(
         <div>
-            <h1>Morsetus</h1>
-            <h4>Morse to text</h4> 
-
+            <div>
+                <h1>Morsetus</h1>
+                <h4>Text to Morse</h4> 
+            </div>
             <div>
                 {textToElement}
             </div>
-            <input type="textbox" onChange={(e)=>{
-                    setText(e.target.value);
-                    console.log(Output);
-                }
-                }/>
+            <div>
+                <input type="textbox" onChange={(e)=>{
+                    var i = Output;
+                    var text = e.target.value;
+
+                    if(i.length > text.length){
+                        i.splice(-1, 1);
+                    }
+                    else{
+                        i.push(MorseConverter({ Morse:false,Text:text }));
+                    }
+                    setOutput(i);
+                    //settexts only point is to make the textToElement function to render changes to output
+                    setText(text);
+                    }
+                    }/>
+            </div>
+           
         </div>
     )
 }
