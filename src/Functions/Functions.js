@@ -5,16 +5,19 @@ const MorseConverter = (e)=>{
         {morse:"·-", alphabet:'A'},
         {morse:"-", alphabet:'E'}
     ]
+
     if(e.Text != '' && e.Text != null && e.Text != undefined){
         // Saadakseen tietää kumittiko käyttäjä kirjaimen, otetaan kirjainhistoria 2 kirjainta taaksepäin ja verrataan sitö nykyiseen inputtiin funktiossa.
-        var text = e.Text.toUpperCase();
+        var inputText = e.Text.toUpperCase();
+        var outputLetter = "";
         var letter = "";
-        if(text.length == 0)
-        letter = text[text.length];
-        else
-        letter = text[text.length-1];
-
         var morse = 0;
+        
+        if(inputText.length == 0)
+            letter = inputText[inputText.length];
+        else
+            letter = inputText[inputText.length-1];
+
         console.log(e);
         
         if(e.Morse == false){
@@ -29,16 +32,19 @@ const MorseConverter = (e)=>{
             return morse;
 
         }
-        else if(e.Morse == true){
+        if(e.Morse == true){
+
 
             MorseTable.map(i => {
-                if(i.morse == e.Morse){
-                    text[0] = text[0]+i.alphabet
-                    console.log(text);
+                console.log(e.Morse);
+                console.log(e.Morse);
+                if(i.morse == e.Text){
+                    outputLetter = i.alphabet;
+                    console.log(outputLetter);
                 }
             });
 
-            return [text];
+            return outputLetter;
         }
         else {
             return["Fatal Error"]
