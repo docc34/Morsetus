@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'FtyStrategycideNcv-elGl';
+  src: local('FtyStrategycideNcv-elGl'), url(./Fonts/FtyStrategycideNcv-elGl.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'SpecialElite-Regular';
+  src: local('SpecialElite-Regular'), url(./Fonts/SpecialElite-Regular.ttf) format('truetype');
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

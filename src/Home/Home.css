@@ -1,0 +1,48 @@
+#morseImage{
+    max-width: 350px;
+    max-height: 350px;
+}
+
+#mainTitle{
+    /* font-family: FtyStrategycideNcv-elGl; */
+    font-family: SpecialElite-Regular;
+}
+
+#inputFormMorse{
+    height: 150px;
+    width: 400px;
+}
+
+#morseTextContainer{
+    max-width: 800px;
+}
+
+#mainContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#outputContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+#inputContainer{
+    text-align: center;
+    max-width: 750px;
+}
+
+.staticText{
+    text-align: center;
+    font-family: SpecialElite-Regular;
+}
+
+.singleMorseCharacter{
+    font-family: SpecialElite-Regular;
+    font-size: 32px;
+    margin-right: 20px;
+    float: left;
+}
+
+
