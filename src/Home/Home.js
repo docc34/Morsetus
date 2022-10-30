@@ -9,6 +9,7 @@ const Home = ()=>{
     const [InputMorse, setInputMorse] = useState(false);
     const [InputMorseLetter, setInputMorseLetter] = useState("");
     const [InputMorseLetterList, setInputMorseLetterList] = useState([]);
+    const [TextHistoryLength, setTextHistoryLength] = useState(0);
     
     const resetValues = ()=>{
         setInputMorseLetter("");
@@ -21,9 +22,46 @@ const Home = ()=>{
     },[Text]);
 
     const textToElement = Output.map((e,i)=>{
-        return <p className='singleMorseCharacter'>{e}</p>
+        return <p key={i} className='singleMorseCharacter'>{e}</p>
     });
 
+    
+
+    const saveOutput = ()=>{
+
+    }
+    const removeMorse = (e)=>{
+        if(e.output.length >= e.text.length ){
+                        
+        }
+        //Remove function for morce
+        var textLength = e.text.split(" ").length
+        if(e.output.length >= textLength){
+            setInputMorseLetter("");
+
+            for(var k = 0; k < e.spliceAmount; k++){
+                e.output.splice(-1,1);
+                var morseLetterList = InputMorseLetterList;
+                morseLetterList.splice(-1,1);
+                setInputMorseLetterList(morseLetterList);
+                setOutput(e.output);  
+            }
+        }
+    }
+
+    const removeText = (e)=>{
+        //Remove function for Text
+        if(e.output.length > e.text.length){
+
+            for(var k = 0; k < e.spliceAmount; k++){
+                e.output.splice(-1,1);
+            }
+
+            setOutput(e.output);  
+            return (e.output);
+        }
+        return ("");
+    }
     return(
         <div id='mainContainer'>
             <div id='titleContainer'>
@@ -46,19 +84,17 @@ const Home = ()=>{
                 </div>
             </div>
             <div id="inputContainer">
-                    <div>
-                        {InputMorse == false ? 
-                            (
-                                <label className='staticText' htmlFor='morseCheckbox'>Convert from Morse to Text  </label>
-                                
-                            )
-                            :(
-                                <label className='staticText' htmlFor='morseCheckbox'>Convert from Morse to Text  </label>
-                                
-                            )
-                        }
-                        <input type="checkbox" id="morseCheckbox"onChange={(e)=>{resetValues(); setInputMorse(e.target.checked);}}/> 
-                    </div>
+                <div>
+                    {InputMorse == false ? 
+                        (
+                            <label className='staticText' htmlFor='morseCheckbox'>Convert from Morse to Text  </label>
+                        )
+                        :(
+                            <label className='staticText' htmlFor='morseCheckbox'>Convert from Morse to Text  </label>
+                        )
+                    }
+                    <input type="checkbox" id="morseCheckbox"onChange={(e)=>{resetValues(); setInputMorse(e.target.checked);}}/> 
+                </div>
 
                 <Form.Control
                     id="inputFormMorse"
@@ -66,76 +102,89 @@ const Home = ()=>{
                     aria-describedby="morseHelpBlock"
                     value={Text} 
                     onChange={(e)=>{
-                        var i = Output;
+                        var output = Output;
                         var text = e.target.value;
-                        var textLength = text.split(" ").length
-                        
-                        if(i.length >= textLength){
-                            setInputMorseLetter("");
-                            var spliceAmount = 0;
-                            //This is for the last letter to be removed
-                            if(textLength == 1 && i.length == 1)
-                                spliceAmount++;
-                            console.log(spliceAmount);
-                            spliceAmount = spliceAmount + i.length - textLength;
+                        var textLength = text.split(" ").length;
+                        var spliceAmount = 0;
 
-                            for(var k = 0; k < spliceAmount; k++){
-                                i.splice(-1,1);
-                                if(InputMorse == true){
-                                    var morseLetterList = InputMorseLetterList;
-                                    morseLetterList.splice(-1,1);
-                                    setInputMorseLetterList(morseLetterList);
+                        //Error on listojen pituuksissa
+                        if(output.length <= text.length ){
+                            if(InputMorse == false){
+                                for(var j = output.length; j < text.length; j++){
+                                    if(InputMorse == false ){
+                                        var temporaryLetter = Output[0] +text[j];
+                                        output.push(MorseConverter({ Morse:InputMorse,Text:temporaryLetter }));
+                                        setOutput(output);  
+                                    }
+                                }   
+                            }
+                            else if(InputMorse == true && InputMorseLetterList.length <= textLength){
+                                var spacesAmount = 0;
+                                var morseLetter = InputMorseLetter;
+                                if(text.length <= 1){
+                                    morseLetter = text;
+                                    setInputMorseLetter(morseLetter);
+                                }
+                                else if(text[text.length-1] != ' '){
+                                    //if an character is removed
+                                    //Error with last character getting removed
+                                    if(TextHistoryLength >= text.length){
+                                        
+                                        var temporaryMorseLetter = "";
+                                        if(morseLetter.length != 1){
+                                            //morseLetter.splice(-1,1);
+                                            for(var j = 0; j < morseLetter.length-(TextHistoryLength - text.length); j++){
+                                                temporaryMorseLetter = temporaryMorseLetter + morseLetter[j];
+                                            }
+                                        }
+                                        morseLetter = temporaryMorseLetter;
+                                    }
+                                    else{
+                                        morseLetter = morseLetter + text[text.length-1];
+                                    }
+                                    //Errors here
+                                    setInputMorseLetter(morseLetter);
+                                    setTextHistoryLength(text.length);
+                                }
+                                console.log(morseLetter);
+
+                                for(var k = 0; k < text.length; k++){
+                                    
+                                    //An space triggers the morse checck process
+                                    if(text[k] == ' '){
+                                        spacesAmount++;
+                                        var morseLetterList = InputMorseLetterList;
+                                        
+                                        if(morseLetterList.length < spacesAmount){
+                                            console.log(morseLetterList);
+    
+                                            morseLetterList.push(morseLetter);
+                                            setInputMorseLetterList(morseLetterList);
+                                            
+                                            console.log("Morse letter:"+morseLetter);
+                                            output.push(MorseConverter({ Morse:InputMorse,Text:morseLetter}));
+                                            setInputMorseLetter("");
+                                            setOutput(output);  
+                                        }
+                                    }
                                 }
                             }
                         }
-                        
-                        if(i.length < text.length){
-                            for(var j = i.length; j < text.length-1; j++){
 
-                                if(InputMorse == false ){
-                                    var temporaryLetter = Output[0] +text[j];
-                                    i.push(MorseConverter({ Morse:InputMorse,Text:temporaryLetter }));
-                                    setOutput(i);
-                                }
-                            }   
+                        //This is for the last letter to be removed
+                        if(text.length == 1 && output.length == 1)
+                            spliceAmount++;
+                        //Splice amount is defined
+                        spliceAmount = spliceAmount + output.length - text.length;
 
-                                if(InputMorse == true){
-                                    var morseLetter = InputMorseLetter;
-                                    var spacesAmount = 0;
+                        if(InputMorse == true){
+                            removeMorse({output:output,text:text, spliceAmount:spliceAmount});
+                        }
+                        else if(InputMorse == false){
+                            removeText({output:output,text:text, spliceAmount:spliceAmount});
+                        }
+                        console.log(output);
 
-                                    if(text.length <= 1){
-                                        morseLetter = morseLetter + text;
-                                        setInputMorseLetter(morseLetter);
-                                    }
-                                    else if(text[text.length-1] != ' '){
-                                        morseLetter = morseLetter + text[text.length-1];
-                                        setInputMorseLetter(morseLetter);
-                                    }
-
-                                    for(var k = 0; k < text.length; k++){
-                                        
-                                        //An space triggers the morse checck process
-                                        if(text[k] == ' '){
-                                            spacesAmount++;
-                                            var morseLetterList = InputMorseLetterList;
-                                            
-                                            if(morseLetterList.length < spacesAmount){
-                                                console.log(morseLetterList);
-        
-                                                morseLetterList.push(morseLetter);
-                                                setInputMorseLetterList(morseLetterList);
-                                                
-                                                console.log("Morse letter:"+morseLetter);
-                                                i.push(MorseConverter({ Morse:InputMorse,Text:morseLetter}));
-                                                setInputMorseLetter("");
-                                            }
-        
-                                        }
-                                    }
-                                    
-                                    setOutput(i);  
-                                }
-                            }
                             //set texts only point is to make the textToElement function to render changes to output
                             setText(text);
                         }
@@ -145,9 +194,12 @@ const Home = ()=>{
             <div className='staticText'>
                 {InputMorse == false ? 
                     (
+                        <div>
                         <Form.Text id="morseHelpBlock" muted>
                             Write something and it will be converted to morse!
                         </Form.Text>
+                        </div>
+
                     )
                     :(
                         <Form.Text id="morseHelpBlock" muted>

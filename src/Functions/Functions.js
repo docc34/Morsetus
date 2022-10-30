@@ -28,6 +28,8 @@ const MorseConverter = (e)=>{
         {morse:"1001", alphabet:'X'},
         {morse:"1011", alphabet:'Y'},
         {morse:"1100", alphabet:'Z'},
+        {morse:"0101", alphabet:'Ä'},
+        {morse:"1110", alphabet:'Ö'},
         {morse:"01111", alphabet:'1'},
         {morse:"00111", alphabet:'2'},
         {morse:"00011", alphabet:'3'},
