@@ -31,15 +31,17 @@ const Home = ()=>{
 
     }
     const removeMorse = (e)=>{
-        if(e.output.length >= e.text.length ){
-                        
-        }
-        //Remove function for morce
+        var spliceAmount = 0;
         var textLength = e.text.split(" ").length
-        if(e.output.length >= textLength){
-            setInputMorseLetter("");
+        //This is for the last letter to be removed
+        if(e.text.length == 1 && e.output.length == 1)
+            spliceAmount++;
+        //Splice amount is defined
+        spliceAmount = spliceAmount + e.output.length - textLength;
 
-            for(var k = 0; k < e.spliceAmount; k++){
+        //Remove function for morce
+        if(e.output.length >= textLength){
+            for(var k = 0; k < spliceAmount; k++){
                 e.output.splice(-1,1);
                 var morseLetterList = InputMorseLetterList;
                 morseLetterList.splice(-1,1);
@@ -50,17 +52,20 @@ const Home = ()=>{
     }
 
     const removeText = (e)=>{
+        var spliceAmount = 0;
+        //This is for the last letter to be removed
+        if(e.text.length == 1 && e.output.length == 1)
+            spliceAmount++;
+        //Splice amount is defined
+        spliceAmount = spliceAmount +  e.output.length - e.text.length;
         //Remove function for Text
         if(e.output.length > e.text.length){
 
-            for(var k = 0; k < e.spliceAmount; k++){
+            for(var k = 0; k < spliceAmount; k++){
                 e.output.splice(-1,1);
             }
-
             setOutput(e.output);  
-            return (e.output);
         }
-        return ("");
     }
     return(
         <div id='mainContainer'>
@@ -105,9 +110,8 @@ const Home = ()=>{
                         var output = Output;
                         var text = e.target.value;
                         var textLength = text.split(" ").length;
-                        var spliceAmount = 0;
 
-                        //Error on listojen pituuksissa
+                        
                         if(output.length <= text.length ){
                             if(InputMorse == false){
                                 for(var j = output.length; j < text.length; j++){
@@ -121,66 +125,81 @@ const Home = ()=>{
                             else if(InputMorse == true && InputMorseLetterList.length <= textLength){
                                 var spacesAmount = 0;
                                 var morseLetter = InputMorseLetter;
-                                console.log(text[text.length-1]);
+
                                 if(text.length <= 1){
                                     morseLetter = text;
                                     setInputMorseLetter(morseLetter);
                                 }
                                 else if(text[text.length-1] != ' ' || text[text.length-1] == ' ' && morseLetter.length == 1){
-                                    console.log("Historylengtrh"+TextHistoryLength);
-                                    console.log("textLength"+text.length);
                                     //Current error is in the removal of characters
                                     if(TextHistoryLength >= text.length){
-                                            morseLetter = morseLetter.substring(0,morseLetter.length-1);
+                                        console.log("aa");
+                                        morseLetter = morseLetter.substring(0,morseLetter.length-1);
                                     }
                                     else{
                                         morseLetter = morseLetter + text[text.length-1];
                                     }
                                     setInputMorseLetter(morseLetter);
-                                    setTextHistoryLength(text.length);
                                 }
                                
                                 console.log(morseLetter);
-
-                                for(var k = 0; k < text.length; k++){
+                                console.log(MorseConverter({ Morse:InputMorse,Text:morseLetter}));
+                                
+                                //This code is not capable of copy paste checking
+                                //An space triggers the morse check process
+                                if(text[text.length-1] == ' ' ){
                                     
-                                    //An space triggers the morse checck process
-                                    if(text[k] == ' '){
-                                        spacesAmount++;
-                                        var morseLetterList = InputMorseLetterList;
-                                        
-                                        if(morseLetterList.length < spacesAmount){
-                                            console.log(morseLetterList);
-    
-                                            morseLetterList.push(morseLetter);
-                                            setInputMorseLetterList(morseLetterList);
-                                            
-                                            console.log("Morse letter:"+morseLetter);
-                                            output.push(MorseConverter({ Morse:InputMorse,Text:morseLetter}));
-                                            setInputMorseLetter("");
-                                            setOutput(output);  
-                                        }
-                                    }
+                                    var morseLetterList = InputMorseLetterList;
+                                    console.log(morseLetterList);
+
+                                    morseLetterList.push(morseLetter);
+                                    setInputMorseLetterList(morseLetterList);
+                                    
+                                    console.log("Morse letter:"+morseLetter);
+                                    output.push(MorseConverter({ Morse:InputMorse,Text:morseLetter}));
+                                    setInputMorseLetter("");
+                                    setOutput(output);  
+                                    
                                 }
+                                
+                                //The letter processing is limited to only 1 letter at a time while the adding is capable of multiple
+
+                                // for(var k = 0; k < text.length; k++){
+                                    
+                                //     //An space triggers the morse checck process
+                                //     if(text[k] == ' '){
+                                //         spacesAmount++;
+                                //         var morseLetterList = InputMorseLetterList;
+                                        
+                                //         if(morseLetterList.length < spacesAmount){
+                                //             console.log(morseLetterList);
+    
+                                //             morseLetterList.push(morseLetter);
+                                //             setInputMorseLetterList(morseLetterList);
+                                            
+                                //             console.log("Morse letter:"+morseLetter);
+                                //             output.push(MorseConverter({ Morse:InputMorse,Text:morseLetter}));
+                                //             setInputMorseLetter("");
+                                //             setOutput(output);  
+                                //         }
+                                //     }
+                                // }
+                                
                             }
                         }
 
-                        //This is for the last letter to be removed
-                        if(text.length == 1 && output.length == 1)
-                            spliceAmount++;
-                        //Splice amount is defined
-                        spliceAmount = spliceAmount + output.length - text.length;
 
                         if(InputMorse == true){
-                            removeMorse({output:output,text:text, spliceAmount:spliceAmount});
+                            removeMorse({output:output,text:text});
                         }
                         else if(InputMorse == false){
-                            removeText({output:output,text:text, spliceAmount:spliceAmount});
+                            removeText({output:output,text:text});
                         }
                         console.log(output);
+                        setTextHistoryLength(text.length);
+                        //set texts only point is to make the textToElement function to render changes to output
+                        setText(text);
 
-                            //set texts only point is to make the textToElement function to render changes to output
-                            setText(text);
                         }
                     }
                 />
