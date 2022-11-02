@@ -66,7 +66,7 @@ const Home = ()=>{
         <div id='mainContainer'>
             <div id='titleContainer'>
                 <h1 id='mainTitle'>Morsetus</h1>
-                <img id='morseImage' src='https://vaatekauppastorage.blob.core.windows.net/morsekuva/MorseAlphabet.jpg'/>
+                {/* <img id='morseImage' src='https://vaatekauppastorage.blob.core.windows.net/morsekuva/MorseAlphabet.jpg'/> */}
             </div>
             <div id='outputContainer' className='staticText '>
                 <div>
@@ -121,31 +121,25 @@ const Home = ()=>{
                             else if(InputMorse == true && InputMorseLetterList.length <= textLength){
                                 var spacesAmount = 0;
                                 var morseLetter = InputMorseLetter;
+                                console.log(text[text.length-1]);
                                 if(text.length <= 1){
                                     morseLetter = text;
                                     setInputMorseLetter(morseLetter);
                                 }
-                                else if(text[text.length-1] != ' '){
-                                    //if an character is removed
-                                    //Error with last character getting removed
+                                else if(text[text.length-1] != ' ' || text[text.length-1] == ' ' && morseLetter.length == 1){
+                                    console.log("Historylengtrh"+TextHistoryLength);
+                                    console.log("textLength"+text.length);
+                                    //Current error is in the removal of characters
                                     if(TextHistoryLength >= text.length){
-                                        
-                                        var temporaryMorseLetter = "";
-                                        if(morseLetter.length != 1){
-                                            //morseLetter.splice(-1,1);
-                                            for(var j = 0; j < morseLetter.length-(TextHistoryLength - text.length); j++){
-                                                temporaryMorseLetter = temporaryMorseLetter + morseLetter[j];
-                                            }
-                                        }
-                                        morseLetter = temporaryMorseLetter;
+                                            morseLetter = morseLetter.substring(0,morseLetter.length-1);
                                     }
                                     else{
                                         morseLetter = morseLetter + text[text.length-1];
                                     }
-                                    //Errors here
                                     setInputMorseLetter(morseLetter);
                                     setTextHistoryLength(text.length);
                                 }
+                               
                                 console.log(morseLetter);
 
                                 for(var k = 0; k < text.length; k++){
