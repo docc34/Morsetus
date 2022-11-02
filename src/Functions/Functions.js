@@ -95,7 +95,7 @@ const MorseConverter = (e)=>{
             return morse;
 
         }
-        if(e.Morse == true){
+        else if(e.Morse == true && ){
 
             MorseTable.map(i => {
                 var morseLetter = "";
@@ -103,13 +103,15 @@ const MorseConverter = (e)=>{
                     //Here you can add various different inputs to be translated to 0 and 1 for use in morse; 
                     if(e.Text[k] == '.' || e.Text[k] == '·' )
                         morseLetter = morseLetter + "0";
-                    if(e.Text[k] == '-')
+                    else if(e.Text[k] == '-')
                         morseLetter = morseLetter + "1";
+                    else if (e.Text[k] != ' ')
+                        return "Input is not correct"
+                    
                 }
                 
                 if(i.morse == morseLetter || i.morse == e.Text){
                     outputLetter = i.alphabet;
-                    
                 }
             });
 
@@ -120,7 +122,7 @@ const MorseConverter = (e)=>{
         }
     }
     else {
-        return ""
+        return "Input is not correct"
     }
 }
 

@@ -145,8 +145,9 @@ const Home = ()=>{
                                 console.log(morseLetter);
                                 console.log(MorseConverter({ Morse:InputMorse,Text:morseLetter}));
                                 
-                                //This code is not capable of copy paste checking
+                                //This code is not currently capable of copy paste checking
                                 //An space triggers the morse check process
+                                
                                 if(text[text.length-1] == ' ' ){
                                     
                                     var morseLetterList = InputMorseLetterList;
