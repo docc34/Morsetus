@@ -95,7 +95,7 @@ const MorseConverter = (e)=>{
             return morse;
 
         }
-        else if(e.Morse == true && ){
+        else if(e.Morse == true){
 
             MorseTable.map(i => {
                 var morseLetter = "";
