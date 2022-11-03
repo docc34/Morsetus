@@ -63,6 +63,7 @@ const MorseConverter = (e)=>{
         // Saadakseen tietää kumittiko käyttäjä kirjaimen, otetaan kirjainhistoria 2 kirjainta taaksepäin ja verrataan sitö nykyiseen inputtiin funktiossa.
         var inputText = e.Text.toUpperCase();
         var outputLetter = "";
+        var outputText ="";
         var letter = "";
         var morse = "";
         
@@ -97,25 +98,30 @@ const MorseConverter = (e)=>{
         }
         else if(e.Morse == true){
 
-            MorseTable.map(i => {
-                var morseLetter = "";
-                for(var k = 0; k < e.Text.length; k++){
-                    //Here you can add various different inputs to be translated to 0 and 1 for use in morse; 
-                    if(e.Text[k] == '.' || e.Text[k] == '·' )
-                        morseLetter = morseLetter + "0";
-                    else if(e.Text[k] == '-')
-                        morseLetter = morseLetter + "1";
-                    else if (e.Text[k] != ' ')
-                        return "Input is not correct"
-                    
-                }
-                
-                if(i.morse == morseLetter || i.morse == e.Text){
-                    outputLetter = i.alphabet;
-                }
-            });
+            if(e.Text != null || e.Text != ""){
+                e.Text.map((o,j)=>{
+                    MorseTable.map(i => {
+                        var morseLetter = "";
+                        for(var k = 0; k < e.Text.length; k++){
+                            //Here you can add various different inputs to be translated to 0 and 1 for use in morse; 
+                            if(e.Text[k] == '.' || e.Text[k] == '·' )
+                                morseLetter = morseLetter + "0";
+                            else if(e.Text[k] == '-')
+                                morseLetter = morseLetter + "1";
+                            else if (e.Text[k] != ' ')
+                                return "Input is not correct"
+                            
+                        }
+                        
+                        if(i.morse == morseLetter || i.morse == e.Text){
+                            outputText = outputText + i.alphabet;
+                        }
+                    });
+                });
+            }
+           
 
-            return outputLetter;
+            return outputText;
         }
         else {
             return["Fatal Error"]
