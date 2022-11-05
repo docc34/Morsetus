@@ -60,26 +60,18 @@ const MorseConverter = (e)=>{
     ]
         
     if(e.Text != '' && e.Text != null && e.Text != undefined){
-        // Saadakseen tietää kumittiko käyttäjä kirjaimen, otetaan kirjainhistoria 2 kirjainta taaksepäin ja verrataan sitö nykyiseen inputtiin funktiossa.
-        var inputText = e.Text.toUpperCase();
-        var outputLetter = "";
-        var outputText = e?.Output;
-        var letter = "";
+        var outputText = "";
         var morse = "";
-        var morseListHistoryLength = 0;
-        if(inputText.length == 0)
-            letter = inputText[inputText.length];
-        else
-            letter = inputText[inputText.length-1];
         
         if(e.Morse == false){
-            if(letter == ' '){
-                morse = "_";
-            }
-            else{
+            for(var j = 0; j < e.Text.length; j++){
+                var letter = e.Text[j].toUpperCase();
+
                 MorseTable.map((i,l) => {
+                    
                     if(i.alphabet == letter){
                         var outputMorseLetter = "";
+
                         for(var k = 0; k < i.morse.length; k++){
                             if(i.morse[k] == 0)
                                 outputMorseLetter = outputMorseLetter + "·";
@@ -88,63 +80,54 @@ const MorseConverter = (e)=>{
                             if(letter == ' ')
                                 outputMorseLetter = outputMorseLetter + "_";
                         }
-                        morse = outputMorseLetter;
+                        morse = morse+ " " + outputMorseLetter;
                     }
                 });
             }
-            
+
             return morse;
         }
         else if(e.Morse == true){
-            if(e.Text != null || e.Text != ""){
-                //Split the given input from spaces
-                var morseList = [];
-                morseList =  e?.Text?.split(" ").filter(e => e != '' && e != ' ');
+            var morseList = [];
+            //Split the given input from spaces and remove blank input
+            morseList = e?.Text?.split(" ").filter(e => e != '' && e != ' ');
 
-               
-                //User has added an character
-                
-                    for(var j = 0; j < morseList.length; j++){
-                        //For each "morsestrip", go trough the morsetable and compare the values
-                        //Go trough every "Morsestrip" and translate the input to 1 and 0
-                        console.log(morseList);
-                        var morseStrip =  morseList[j];
-                        var tempMorseStrip = "";
-                        console.log(morseStrip);
-                        for(var k = 0; k < morseStrip.length; k++){
-                            if(morseStrip[k] == '.' || morseStrip[k] == '·' )
-                            tempMorseStrip = tempMorseStrip + '0';
-                            else if(morseStrip[k] == '-')
-                            tempMorseStrip = tempMorseStrip + '1';
+            for(var j = 0; j < morseList.length; j++){
+                //For each "morsestrip", go trough the morsetable and compare the values
+                //Go trough every "Morsestrip" and translate the input to 1 and 0
+                var morseStrip =  morseList[j];
+                var tempMorseStrip = "";
+
+                for(var k = 0; k < morseStrip.length; k++){
+                    if(morseStrip[k] == '.' || morseStrip[k] == '·' )
+                        tempMorseStrip = tempMorseStrip + '0';
+                    else if(morseStrip[k] == '-')
+                        tempMorseStrip = tempMorseStrip + '1';
+                }
+
+                MorseTable.map(i => {
+                    if(i.morse == tempMorseStrip){
+                        outputText = outputText+ i.alphabet;
+                        
+                        if (outputText.length > morseList.length+1){
+                            
+                            outputText = outputText.substring(1,outputText.length);
+                            
+                            if(outputText.length > 1)
+                                outputText = outputText.substring(2,outputText.length);
+                            
                         }
-    
-                        MorseTable.map(i => {
-                            if(i.morse == tempMorseStrip){
-                                outputText = outputText+ i.alphabet;
-
-                                //Error here
-                                if (outputText.length >= morseList.length+1){
-                                    
-                                    outputText = outputText.substring(1,outputText.length);
-                                }
-                            }
-                        });
                     }
-                    //Error here
-                    if (outputText.length <= morseList.length+1){
-                        outputText = outputText.substring(0,outputText.length-1);
-                    }
-                    console.log(tempMorseStrip);                
-            }
-           
+                });
+            }            
             return outputText;
-        }
-        else {
-            return"Fatal Error"
         }
     }
     else {
-        return "Input is not correct"
+        if(e.Morse == true)
+            return "Input something in morse!"
+        else if(e.Morse == false)
+            return "Input something in text!"
     }
 }
 
