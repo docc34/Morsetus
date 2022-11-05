@@ -122,6 +122,7 @@ const MorseConverter = (e)=>{
                             if(i.morse == tempMorseStrip){
                                 outputText = outputText+ i.alphabet;
 
+                                //Error here
                                 if (outputText.length >= morseList.length+1){
                                     
                                     outputText = outputText.substring(1,outputText.length);
@@ -129,6 +130,7 @@ const MorseConverter = (e)=>{
                             }
                         });
                     }
+                    //Error here
                     if (outputText.length <= morseList.length+1){
                         outputText = outputText.substring(0,outputText.length-1);
                     }
