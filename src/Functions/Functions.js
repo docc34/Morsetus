@@ -63,10 +63,10 @@ const MorseConverter = (e)=>{
         // Saadakseen tietää kumittiko käyttäjä kirjaimen, otetaan kirjainhistoria 2 kirjainta taaksepäin ja verrataan sitö nykyiseen inputtiin funktiossa.
         var inputText = e.Text.toUpperCase();
         var outputLetter = "";
-        var outputText ="";
+        var outputText = e?.Output;
         var letter = "";
         var morse = "";
-        
+        var morseListHistoryLength = 0;
         if(inputText.length == 0)
             letter = inputText[inputText.length];
         else
@@ -94,37 +94,51 @@ const MorseConverter = (e)=>{
             }
             
             return morse;
-
         }
         else if(e.Morse == true){
-
             if(e.Text != null || e.Text != ""){
-                e.Text.map((o,j)=>{
-                    MorseTable.map(i => {
-                        var morseLetter = "";
-                        for(var k = 0; k < e.Text.length; k++){
-                            //Here you can add various different inputs to be translated to 0 and 1 for use in morse; 
-                            if(e.Text[k] == '.' || e.Text[k] == '·' )
-                                morseLetter = morseLetter + "0";
-                            else if(e.Text[k] == '-')
-                                morseLetter = morseLetter + "1";
-                            else if (e.Text[k] != ' ')
-                                return "Input is not correct"
-                            
+                //Split the given input from spaces
+                var morseList = [];
+                morseList =  e?.Text?.split(" ").filter(e => e != '' && e != ' ');
+
+               
+                //User has added an character
+                
+                    for(var j = 0; j < morseList.length; j++){
+                        //For each "morsestrip", go trough the morsetable and compare the values
+                        //Go trough every "Morsestrip" and translate the input to 1 and 0
+                        console.log(morseList);
+                        var morseStrip =  morseList[j];
+                        var tempMorseStrip = "";
+                        console.log(morseStrip);
+                        for(var k = 0; k < morseStrip.length; k++){
+                            if(morseStrip[k] == '.' || morseStrip[k] == '·' )
+                            tempMorseStrip = tempMorseStrip + '0';
+                            else if(morseStrip[k] == '-')
+                            tempMorseStrip = tempMorseStrip + '1';
                         }
-                        
-                        if(i.morse == morseLetter || i.morse == e.Text){
-                            outputText = outputText + i.alphabet;
-                        }
-                    });
-                });
+    
+                        MorseTable.map(i => {
+                            if(i.morse == tempMorseStrip){
+                                outputText = outputText+ i.alphabet;
+
+                                if (outputText.length >= morseList.length+1){
+                                    
+                                    outputText = outputText.substring(1,outputText.length);
+                                }
+                            }
+                        });
+                    }
+                    if (outputText.length <= morseList.length+1){
+                        outputText = outputText.substring(0,outputText.length-1);
+                    }
+                    console.log(tempMorseStrip);                
             }
            
-
             return outputText;
         }
         else {
-            return["Fatal Error"]
+            return"Fatal Error"
         }
     }
     else {
