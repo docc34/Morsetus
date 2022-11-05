@@ -1,7 +1,7 @@
 
 
 const MorseConverter = (e)=>{
-    var MorseTable = [ //·
+    var MorseTable = [
         {morse:"01", alphabet:'A'},
         {morse:"1000", alphabet:'B'},
         {morse:"1010", alphabet:'C'},
@@ -66,7 +66,9 @@ const MorseConverter = (e)=>{
         if(e.Morse == false){
             for(var j = 0; j < e.Text.length; j++){
                 var letter = e.Text[j].toUpperCase();
-
+                if(letter == ' ')
+                    morse = morse+ " "+"_";
+                
                 MorseTable.map((i,l) => {
                     
                     if(i.alphabet == letter){
@@ -77,9 +79,8 @@ const MorseConverter = (e)=>{
                                 outputMorseLetter = outputMorseLetter + "·";
                             if(i.morse[k] == 1)
                                 outputMorseLetter = outputMorseLetter + "-";
-                            if(letter == ' ')
-                                outputMorseLetter = outputMorseLetter + "_";
                         }
+                        
                         morse = morse+ " " + outputMorseLetter;
                     }
                 });
@@ -115,7 +116,6 @@ const MorseConverter = (e)=>{
                             
                             if(outputText.length > 1)
                                 outputText = outputText.substring(2,outputText.length);
-                            
                         }
                     }
                 });

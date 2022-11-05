@@ -8,14 +8,8 @@ const Home = ()=>{
     const [Text, setText] = useState("");
     const [InputMorse, setInputMorse] = useState(false);
     
-    const resetValues = ()=>{
-
-
-        setOutput([]);
-        setText("");
-    }
-
     useEffect(()=>{
+        setText("");
         if(InputMorse == true)
             setOutput("Input something in morse!");
         else
@@ -23,32 +17,11 @@ const Home = ()=>{
         
     },[InputMorse]);
 
-    // const textToElement = Output.map((e,i)=>{
-    //     return <p key={i} className='singleMorseCharacter'>{e}</p>
-    // });
-    
-
-    // const removeText = (e)=>{
-    //     var spliceAmount = 0;
-    //     //This is for the last letter to be removed
-    //     if(e.text.length == 1 && e.output.length == 1)
-    //         spliceAmount++;
-    //     //Splice amount is defined
-    //     spliceAmount = spliceAmount +  e.output.length - e.text.length;
-    //     //Remove function for Text
-    //     if(e.output.length > e.text.length){
-
-    //         for(var k = 0; k < spliceAmount; k++){
-    //             e.output.splice(-1,1);
-    //         }
-    //         setOutput(e.output);  
-    //     }
-    // }
     return(
         <div id='mainContainer'>
             <div id='titleContainer'>
                 <h1 id='mainTitle'>Morsetus</h1>
-                {/* <img id='morseImage' src='https://vaatekauppastorage.blob.core.windows.net/morsekuva/MorseAlphabet.jpg'/> */}
+                <img id='morseImage' src='https://vaatekauppastorage.blob.core.windows.net/morsekuva/MorseAlphabet.jpg'/>
             </div>
             <div id='outputContainer' className='staticText '>
                 <div>
@@ -75,7 +48,7 @@ const Home = ()=>{
                             <label className='staticText' htmlFor='morseCheckbox'>Convert from Morse to Text  </label>
                         )
                     }
-                    <input type="checkbox" id="morseCheckbox"onChange={(e)=>{resetValues(); setInputMorse(e.target.checked);}}/> 
+                    <input type="checkbox" id="morseCheckbox"onChange={(e)=>{ setInputMorse(e.target.checked);}}/> 
                 </div>
 
                 <Form.Control
@@ -84,14 +57,8 @@ const Home = ()=>{
                     aria-describedby="morseHelpBlock"
                     value={Text} 
                     onChange={(e)=>{
-                        var output = Output;
-                        var text = e.target.value;
-
-                        setOutput(MorseConverter({ Morse:InputMorse,Text:text }));                          
-
-                        //set texts only point is to make the textToElement function to render changes to output
-                        setText(text);
-
+                            setOutput(MorseConverter({ Morse:InputMorse,Text:e.target.value }));                          
+                            setText(e.target.value);
                         }
                     }
                 />
