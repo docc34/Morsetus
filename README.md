@@ -1,4 +1,4 @@
-Link to site: morsetus.azurewebsites.net
-The site is published to the internet on Azure with the free dev plan.
+Tässä on koodit tekemääni react morsekääntäjään.
 
--Eemeli Antikainen
+Käyttäjä pystyi kirjoittamaan joko morsea .. .--., joka käännettiin tekstiksi, 
+tai tekstiä joka käännettiin morseksi. Kääntäminen tapahtui state muuttujilla reaaliaikaisesti.
